@@ -1,0 +1,63 @@
+{
+  "schema": "NEUROLIFE_PUBLIC_AI_DISCOVERY_1",
+  "project": "NeuroLife",
+  "purpose": "Public machine-readable discovery and onboarding for AI developers. Not a production deployment transport.",
+  "public_repository_role": "DISCOVERY_ONLY",
+  "production_gitops_policy": "PRIVATE_REQUIRED",
+  "planes": {
+    "MAIN": "https://neurolife.cloud",
+    "BOT": "https://neurolifebot.neurolife.cloud",
+    "NODE_CLOUD": "https://node.neurolife.cloud"
+  },
+  "live_control_plane": {
+    "owner_supplied_entrypoint": "https://neurolife.cloud/connect.php/<NLB-TICKET>",
+    "developer_handoff": "?op=developer_handoff",
+    "current_truth": "?op=native_current_truth",
+    "runtime_truth": "?op=runtime_truth",
+    "reg907": "?op=reg907_guard",
+    "updater_status": "?op=updater_status",
+    "full_health": "?op=full_health",
+    "pull_bridge_status": "?op=pull_bridge_status"
+  },
+  "canonical_update_flow": [
+    "READ_LIVE_TRUTH",
+    "BUILD_CHANGESET",
+    "SERVER_VALIDATE",
+    "PRIVATE_PRODUCTION_GITOPS",
+    "PULL_BRIDGE",
+    "PROVE",
+    "OWNER_POLICY",
+    "APPLY",
+    "FRESH_VERIFY",
+    "REG907",
+    "STABLE"
+  ],
+  "mandatory_guards": [
+    "REG907_RELEASE_ALIAS_PARITY",
+    "REG907_COMPONENT_METADATA_NO_DRIFT",
+    "PACKAGE_HASH_AND_SIGNATURE_VALIDATION",
+    "ANTI_REPLAY",
+    "BACKUP_OR_ROLLBACK_CHECKPOINT",
+    "FRESH_RUNTIME_VERIFY"
+  ],
+  "secret_handling": {
+    "active_nlb_ticket": "OWNER_SUPPLIED_NEVER_PUBLISH",
+    "arm_secret": "POST_BODY_ONLY_NEVER_PUBLISH",
+    "commit_secret": "POST_BODY_ONLY_NEVER_PUBLISH",
+    "production_missions": "PRIVATE_ONLY",
+    "production_payloads": "PRIVATE_ONLY"
+  },
+  "developer_rules": [
+    "Inspect live truth before mutation.",
+    "Do not bypass Prove, owner approval, backup, REG907, or Fresh Verify.",
+    "Do not treat public discovery files as production authority.",
+    "Do not request manual ZIP shuttling when the live Pull Bridge is healthy.",
+    "Stop if mission, package, ChangeSet, release identity, or hashes drift."
+  ],
+  "discovery_files": [
+    "README.md",
+    "llms.txt",
+    "docs/AI-DEVELOPER-PROTOCOL.md",
+    "SECURITY.md"
+  ]
+}

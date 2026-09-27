@@ -1,0 +1,41 @@
+# NeuroLife
+
+NeuroLife is a neurosurgery and spine clinic platform.
+
+Public AI discovery repository role: documentation and onboarding only.
+Production GitOps transport: private by policy.
+
+Primary planes:
+- MAIN: https://neurolife.cloud
+- BOT: https://neurolifebot.neurolife.cloud
+- NODE_CLOUD: https://node.neurolife.cloud
+
+When the owner provides a current unified NLB link, use that link as the live session authority:
+https://neurolife.cloud/connect.php/<NLB-TICKET>
+
+Start with:
+- ?op=developer_handoff
+- ?op=native_current_truth
+- ?op=reg907_guard
+- ?op=updater_status
+- ?op=pull_bridge_status
+
+Canonical flow:
+Live Truth -> ChangeSet -> Server Validation -> Private GitOps -> Pull Bridge -> Prove -> Owner Policy -> Apply -> Fresh Verify -> REG907 -> STABLE
+
+Never publish:
+- active NLB tickets
+- Arm secrets
+- Commit secrets
+- private production missions
+- production credentials
+- private package payloads
+
+Never bypass:
+- Prove
+- owner approval
+- backup/rollback protection
+- REG907
+- Fresh Verify
+
+See README.md, AI_DISCOVERY.json, docs/AI-DEVELOPER-PROTOCOL.md, and SECURITY.md.

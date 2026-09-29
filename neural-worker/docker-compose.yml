@@ -1,0 +1,20 @@
+services:
+  siox-neural-worker:
+    image: ghcr.io/nabawai/neurolife-siox-neural-worker:latest
+    container_name: neurolife-siox-neural-worker
+    restart: unless-stopped
+
+    ports:
+      - "11434:11434"
+
+    environment:
+      OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_MODEL: "qwen2.5:3b"
+      OLLAMA_EMBED_MODEL: "nomic-embed-text"
+      SIOX_AUTO_PULL_MODEL: "1"
+
+    volumes:
+      - siox-ollama-data:/root/.ollama
+
+volumes:
+  siox-ollama-data:

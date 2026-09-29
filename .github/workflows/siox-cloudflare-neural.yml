@@ -1,0 +1,45 @@
+name: SIOX Cloudflare Neural Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-cloudflare-ai:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test Cloudflare Workers AI
+        shell: bash
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+
+          RESPONSE=$(curl -sS \
+            -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3.2-3b-instruct" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{
+              "messages": [
+                {
+                  "role": "system",
+                  "content": "You are the NeuroLife SIOX neural runtime verification service."
+                },
+                {
+                  "role": "user",
+                  "content": "Return exactly: SIOX_CLOUDFLARE_AI_OK"
+                }
+              ]
+            }')
+
+          echo "$RESPONSE"
+
+          echo "$RESPONSE" | grep -q '"success":true'
+          echo "$RESPONSE" | grep -q 'SIOX_CLOUDFLARE_AI_OK'
+
+          echo "SIOX_CLOUDFLARE_NEURAL_TEST=PASS"
